@@ -6,7 +6,7 @@ metadata:
     run.googleapis.com/ingress: internal-and-cloud-load-balancing
 spec:
   template:
-    metadata: nextjs-app-prod-$GITHUB_RUN_NUMBER
+    metadata: nextjs-app-prod-115
     spec:
       timeoutSeconds: 1800
       containers:
