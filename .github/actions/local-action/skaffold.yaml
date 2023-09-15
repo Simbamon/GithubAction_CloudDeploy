@@ -1,0 +1,13 @@
+apiVersion: skaffold/vc3alpha1
+kind: Config
+metadata:
+  name: cloud-deploy-test
+profiles:
+- name: dev
+  manifests:
+    rawYaml:
+      - 'nextjs-app-dev.yaml'
+- name: prod
+  manifests:
+    rawYaml:
+      - 'nextjs-app-prod.yaml'

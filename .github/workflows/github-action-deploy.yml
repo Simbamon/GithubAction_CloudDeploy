@@ -47,4 +47,13 @@ jobs:
         run: |-
           echo "RELEASE_NAME=testing-release-${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}" >> ${GITHUB_ENV}
           
-
+      - name: 'Create release in Cloud Deploy'
+        id: 'releaes'
+        uses: 'google-github-actions/create-cloud-deploy-release@v0'
+        with:
+          delivery_pipeline: github-action-cd-pipeline
+          name: '${{ env.RELEASE_NAME }}'
+          region: $REGION
+          description: '{{ env.GITHUB_COMMIT_MSG }}'
+          skaffold_file: '.github/actions/local-action/skaffold.yaml'
+          images: 'app=gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA'
