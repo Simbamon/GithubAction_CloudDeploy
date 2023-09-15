@@ -1,0 +1,14 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: nextjs-deploy-prod
+  annotations:
+    run.googleapis.com/ingress: internal-and-cloud-load-balancing
+spec:
+  template:
+    metadata: nextjs-app-prod-$GITHUB_RUN_NUMBER
+    spec:
+      timeoutSeconds: 1800
+      containers:
+      - image: app
+      
