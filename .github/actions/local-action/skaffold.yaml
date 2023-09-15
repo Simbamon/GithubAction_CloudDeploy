@@ -8,8 +8,8 @@ profiles:
 - name: dev
   manifests:
     rawYaml:
-      - '.github/actions/local-action/nextjs-app-dev.yaml'
+      - 'nextjs-app-dev.yaml'
 - name: prod
   manifests:
     rawYaml:
-      - '.github/actions/local-action/nextjs-app-prod.yaml'
+      - 'nextjs-app-prod.yaml'
