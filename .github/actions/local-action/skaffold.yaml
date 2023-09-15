@@ -2,6 +2,8 @@ apiVersion: skaffold/v3alpha1
 kind: Config
 metadata:
   name: cloud-deploy-test
+deploy:
+  cloudrun: {}
 profiles:
 - name: dev
   manifests:
