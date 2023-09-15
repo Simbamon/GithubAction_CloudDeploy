@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  PROJECT_ID: ${{ secrets.CLOUD_RUN_PROJECT_NAME }}
+  PROJECT_ID: ${{ secrets.CLOUD_DEPLOY_PROJECT_NAME }}
   REGION: us-east1
   REPO_NAME: nextjs-cloud-deploy
 
@@ -22,7 +22,7 @@ jobs:
       - id: 'auth'
         uses: "google-github-actions/auth@v1"
         with:
-          credentials_json: "${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}"
+          credentials_json: "${{ secrets.CLOUD_DEPLOY_SERVICE_ACCOUNT }}"
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
