@@ -1,0 +1,31 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+ name: github-action-cd-pipeline
+description: 'NextJS application pipeline'
+serialPipeline:
+ stages:
+ - targetId: nextjs-dev
+   profiles: [dev]
+ - targetId: nextjs-prod
+   profiles: [prod]
+
+---
+
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+ name: nextjs-dev
+description: 'NextJS dev service'
+run:
+ location: projects/$PROJECT_ID/locations/us-east1
+
+---
+
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+ name: nextjs-prod
+description: 'NextJS prod service'
+run:
+ location: projects/$PROJECT_ID/locations/us-east1

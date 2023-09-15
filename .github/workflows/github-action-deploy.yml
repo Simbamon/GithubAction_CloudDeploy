@@ -1,0 +1,53 @@
+name: nextjs-cloud-run
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+env:
+  PROJECT_ID: ${{ secrets.CLOUD_RUN_PROJECT_NAME }}
+  REGION: us-east1
+  REPO_NAME: nextjs-cloud-run
+
+jobs:
+  build-and-deploy:
+    name: Setup, Build, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3    
+
+      - name: 'Google auth'
+      - id: 'auth'
+        uses: "google-github-actions/auth@v1"
+        with:
+          service_account: "${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}"
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          project_id: '${{ env.PROJECT_ID }}'
+
+      - name: 'Docker auth'
+        run: |-
+          gcloud auth configure-docker
+
+      - name: Build and tag the docker image
+        run: |-
+          docker build . --tag gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
+
+      - name: Push the image to the Google Container Registry (GCR)
+        run: |-
+          docker push gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
+
+      - name: 'Cloud Deploy: Delivery pipeline'
+        run: |-
+          gcloud deploy apply --file .github/actions/local-action/gc-cd.yaml --region=$REGION --project=$PROJECT_ID
+
+      - name: 'Create release name'
+        run: |-
+          echo "RELEASE_NAME=testing-release-${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}" >> ${GITHUB_ENV}
+          # echo "RELEASE_NAME=${{ env.APP }}-${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}" >> ${GITHUB_ENV}
+
