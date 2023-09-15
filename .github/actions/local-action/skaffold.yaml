@@ -1,4 +1,4 @@
-apiVersion: skaffold/vc3alpha1
+apiVersion: skaffold/v3alpha1
 kind: Config
 metadata:
   name: cloud-deploy-test
