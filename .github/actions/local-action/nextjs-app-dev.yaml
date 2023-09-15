@@ -1,13 +1,16 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: nextjs-deploy-dev
-  annotations:
-    run.googleapis.com/ingress: internal-and-cloud-load-balancing
+  name: 'nextjs-deploy-dev'
 spec:
   template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '1'
     spec:
-      timeoutSeconds: 1800
       containers:
-      - image: app
-
+      - name: 'app'
+        image: 'app'
+        env:
+          - name: 'TARGET'
+            value: 'Staging'
