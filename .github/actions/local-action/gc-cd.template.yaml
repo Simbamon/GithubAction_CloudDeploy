@@ -18,7 +18,7 @@ metadata:
  name: 'nextjs-dev'
 description: 'NextJS dev service'
 run:
- location: projects/united-night-397809/locations/us-east1
+ location: projects/${PROJECT_ID}/locations/us-east1
 
 ---
 
@@ -28,4 +28,4 @@ metadata:
  name: 'nextjs-prod'
 description: 'NextJS prod service'
 run:
- location: projects/united-night-397809/locations/us-east1
+ location: projects/${PROJECT_ID}/locations/us-east1

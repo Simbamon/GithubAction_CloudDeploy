@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  PROJECT_ID: united-night-397809
+  PROJECT_ID: ${{ secrets.CLOUD_DEPLOY_PROJECT_NAME }}
   REGION: us-east1
   REPO_NAME: nextjs-cloud-deploy
 
@@ -41,6 +41,12 @@ jobs:
       - name: Push the image to the Google Container Registry (GCR)
         run: |-
           docker push "gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }}"
+
+      - name: 'Export Environmental Variables with envsubst'
+        run: |-
+          export PROJECT_ID="${{ env.PROJECT_ID }}"
+          export GITHUB_RUN_NUMBER="${{ github.run_number }}"
+          for template in $(ls ../actions/local-action/*.template.yaml); do envsubst < ${template} > ${template%%.*}.yaml ; done
 
       - name: 'Cloud Deploy: Delivery pipeline'
         run: |-

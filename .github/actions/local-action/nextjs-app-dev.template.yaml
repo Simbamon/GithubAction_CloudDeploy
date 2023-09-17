@@ -1,10 +1,11 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: 'nextjs-deploy-prod'
+  name: 'nextjs-deploy-dev'
 spec:
   template:
     metadata:
+      name: nextjs-deploy-dev-${GITHUB_RUN_NUMBER}
       annotations:
         autoscaling.knative.dev/maxScale: '1'
     spec:
@@ -13,9 +14,8 @@ spec:
         image: 'app'
         env:
           - name: 'TARGET'
-            value: 'Prod'
+            value: 'Staging'
   traffic:
-  - tag: new-tag-prod
-    percent: 90
-  - revisionName: nextjs-deploy-prod-lmmqwmdh
-    percent: 10
+  - revisionName: nextjs-deploy-dev-${GITHUB_RUN_NUMBER}
+    tag: new-tag-dev
+    percent: 100
