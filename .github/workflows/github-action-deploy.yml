@@ -29,19 +29,6 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v1'
         with:
           project_id: '${{ env.PROJECT_ID }}'
-          
-      - name: 'Docker auth'
-        run: |-
-          gcloud auth configure-docker
-          echo "$GITHUB_CONTEXT"
-
-      - name: Build and tag the docker image
-        run: |-
-          docker build . --tag "gcr.io/${{ env.PROJECT_ID }}/${{ env.SNAME }}:${{ github.sha }}"
-
-      - name: Push the image to the Google Container Registry (GCR)
-        run: |-
-          docker push "gcr.io/${{ env.PROJECT_ID }}/${{ env.SNAME }}:${{ github.sha }}"
 
       - name: 'Export Environmental Variables with envsubst'
         run: |-
@@ -68,7 +55,20 @@ jobs:
           envsubst < .github/actions/local-action/gc-cd.template.yaml > .github/actions/local-action/gc-cd.yaml
           envsubst < .github/actions/local-action/nextjs-app-dev.template.yaml > .github/actions/local-action/nextjs-app-dev.yaml
           envsubst < .github/actions/local-action/nextjs-app-prod.template.yaml > .github/actions/local-action/nextjs-app-prod.yaml
-          envsubst < .github/actions/local-action/skaffold.template.yaml > .github/actions/local-action/skaffold.yaml
+          envsubst < .github/actions/local-action/skaffold.template.yaml > .github/actions/local-action/skaffold.yaml          
+
+      - name: 'Docker auth'
+        run: |-
+          gcloud auth configure-docker
+          echo "$GITHUB_CONTEXT"
+
+      - name: Build and tag the docker image
+        run: |-
+          docker build . --tag "gcr.io/${{ env.PROJECT_ID }}/${{ env.SNAME }}:${{ github.sha }}"
+
+      - name: Push the image to the Google Container Registry (GCR)
+        run: |-
+          docker push "gcr.io/${{ env.PROJECT_ID }}/${{ env.SNAME }}:${{ github.sha }}"
 
       - name: 'Cloud Deploy: Delivery pipeline'
         run: |-
