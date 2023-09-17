@@ -35,6 +35,7 @@ jobs:
 
       - name: Build and tag the docker image
         run: |-
+          echo "gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ env.GITHUB_SHA }}"
           docker build . --tag "gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ env.GITHUB_SHA }}"
 
       - name: Push the image to the Google Container Registry (GCR)
