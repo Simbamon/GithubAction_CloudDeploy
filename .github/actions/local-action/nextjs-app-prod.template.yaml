@@ -19,6 +19,7 @@ spec:
   - revisionName: nextjs-deploy-prod-${GITHUB_RUN_NUMBER}
     tag: new-tag-prod
     percent: 90
+    # This revision name (LATEST = PREVIOUS) needs to exist in the Cloud Run
   - revisionName: ${CLOUD_RUN_LATEST_REVISION_PROD}
     tag: previous-tag-prod
     percent: 10

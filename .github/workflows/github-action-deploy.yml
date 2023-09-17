@@ -75,7 +75,7 @@ jobs:
           delivery_pipeline: github-action-cd-pipeline
           name: '${{ env.RELEASE_NAME }}'
           region: 'us-east1'
-          description: '${{ env.GITHUB_COMMIT_MSG }}'
+          description: '${{ github.event.head_commit.message }}'
           skaffold_file: '.github/actions/local-action/skaffold.yaml'
           images: 'app=gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }}'
 
