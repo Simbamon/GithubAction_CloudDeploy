@@ -18,8 +18,11 @@ spec:
   traffic:
   - revisionName: ${SNAME}-${GITHUB_RUN_NUMBER}-prod
     tag: new-tag-prod
-    percent: 90
+    percent: 70
     # This revision name (LATEST = PREVIOUS) needs to exist in the Cloud Run
   - revisionName: ${CLOUD_RUN_LATEST_REVISION_PROD}
     tag: previous-tag-prod
+    percent: 20
+  - revisionName: ${CLOUD_RUN_LATEST_REVISION_DEV}
+    tag: previous-tag-dev
     percent: 10

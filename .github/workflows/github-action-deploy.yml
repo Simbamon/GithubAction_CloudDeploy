@@ -37,7 +37,7 @@ jobs:
           export SNAME="${{ env.SNAME }}"
           export CLOUD_RUN_LATEST_REVISION_DEV=$(gcloud run revisions list \
             --format="value(metadata.name)" \
-            --limit=1 \
+            --limit=2 \
             --platform=managed \
             --region=${{ env.REGION }} \
             --service=${{ env.SNAME }} \
@@ -45,7 +45,7 @@ jobs:
             --sort-by="~metadata.creationTimestamp")
           export CLOUD_RUN_LATEST_REVISION_PROD=$(gcloud run revisions list \
             --format="value(metadata.name)" \
-            --limit=1 \
+            --limit=2 \
             --platform=managed \
             --region=${{ env.REGION }} \
             --service=${{ env.SNAME }} \
