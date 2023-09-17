@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  PROJECT_ID: ${{ secrets.CLOUD_DEPLOY_PROJECT_NAME }}
+  PROJECT_ID: united-night-397809
   REGION: us-east1
   REPO_NAME: nextjs-cloud-deploy
 
