@@ -10,6 +10,7 @@ env:
   PROJECT_ID: ${{ secrets.CLOUD_DEPLOY_PROJECT_NAME }}
   REGION: us-east1
   REPO_NAME: nextjs-cloud-deploy
+  SNAME: nextjs-application
 
 jobs:
   build-and-deploy:
@@ -36,16 +37,17 @@ jobs:
 
       - name: Build and tag the docker image
         run: |-
-          docker build . --tag "gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }}"
+          docker build . --tag "gcr.io/${{ env.PROJECT_ID }}/${{ env.SNAME }}:${{ github.sha }}"
 
       - name: Push the image to the Google Container Registry (GCR)
         run: |-
-          docker push "gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }}"
+          docker push "gcr.io/${{ env.PROJECT_ID }}/${{ env.SNAME }}:${{ github.sha }}"
 
       - name: 'Export Environmental Variables with envsubst'
         run: |-
           export PROJECT_ID="${{ env.PROJECT_ID }}"
           export GITHUB_RUN_NUMBER="${{ github.run_number }}"
+          export SNAME= "${{env.SNAME }}"
           export CLOUD_RUN_LATEST_REVISION_DEV=$(gcloud run services describe nextjs-deploy-dev \
           --format="value(status.latestReadyRevisionName)" \
           --platform=managed \
@@ -66,7 +68,7 @@ jobs:
 
       - name: 'Create release name'
         run: |-
-          echo "RELEASE_NAME=testing-release-${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}" >> ${GITHUB_ENV}
+          echo "RELEASE_NAME=single-service-release-${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}" >> ${GITHUB_ENV}
           
       - name: 'Create release in Cloud Deploy'
         id: 'releaes'
@@ -77,7 +79,7 @@ jobs:
           region: 'us-east1'
           description: '${{ github.event.head_commit.message }}'
           skaffold_file: '.github/actions/local-action/skaffold.yaml'
-          images: 'app=gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ github.sha }}'
+          images: 'app=gcr.io/${{ env.PROJECT_ID }}/${{ env.SNAME }}:${{ github.sha }}'
 
       - name: 'Report Cloud Deploy release'
         run: |-
