@@ -1,11 +1,11 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: ${SNAME}
+  name: 'nextjs-deploy-dev'
 spec:
   template:
     metadata:
-      name: ${SNAME}-${GITHUB_RUN_NUMBER}-dev
+      name: nextjs-deploy-dev-${GITHUB_RUN_NUMBER}
       annotations:
         autoscaling.knative.dev/maxScale: '1'
     spec:
@@ -16,14 +16,10 @@ spec:
           - name: 'TARGET'
             value: 'Staging'
   traffic:
-  - revisionName: ${SNAME}-${GITHUB_RUN_NUMBER}-dev
+  - revisionName: nextjs-deploy-dev-${GITHUB_RUN_NUMBER}
     tag: new-tag-dev
-    percent: 70
+    percent: 90
     # This revision name (LATEST = PREVIOUS) needs to exist in the Cloud Run
   - revisionName: ${CLOUD_RUN_LATEST_REVISION_DEV}
     tag: previous-tag-dev
-    percent: 20
-    # This revision name (LATEST = PREVIOUS) needs to exist in the Cloud Run
-  - revisionName: ${CLOUD_RUN_LATEST_REVISION_PROD}
-    tag: previous-tag-prod
     percent: 10

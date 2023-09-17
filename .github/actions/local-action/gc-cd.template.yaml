@@ -1,8 +1,8 @@
 apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
- name: single-cloud-run-service
-description: 'NextJS application pipeline with single Cloud Run service'
+ name: github-action-cd-pipeline
+description: 'NextJS application pipeline'
 serialPipeline:
  stages:
  - targetId: 'nextjs-dev'
