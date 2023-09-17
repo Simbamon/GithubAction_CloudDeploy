@@ -46,7 +46,7 @@ jobs:
         run: |-
           export PROJECT_ID="${{ env.PROJECT_ID }}"
           export GITHUB_RUN_NUMBER="${{ github.run_number }}"
-          for template in $(ls .github/actions/local-action/*.template.yaml); do envsubst < ${template} > ${template%%.*}.yaml ; done
+          for template in $(ls .github/actions/local-action/*); do envsubst < ${template} ; done
 
       - name: 'Cloud Deploy: Delivery pipeline'
         run: |-
