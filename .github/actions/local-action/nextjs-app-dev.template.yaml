@@ -18,4 +18,7 @@ spec:
   traffic:
   - revisionName: nextjs-deploy-dev-${GITHUB_RUN_NUMBER}
     tag: new-tag-dev
-    percent: 100
+    percent: 90
+  - revisionName: nextjs-deploy-dev-${GITHUB_RUN_NUMBER_PREVIOUS_COMMIT}
+    tag: previous-tag-dev
+    percent: 10

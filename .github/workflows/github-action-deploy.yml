@@ -46,7 +46,11 @@ jobs:
         run: |-
           export PROJECT_ID="${{ env.PROJECT_ID }}"
           export GITHUB_RUN_NUMBER="${{ github.run_number }}"
-          for template in $(ls .github/actions/local-action/*); do envsubst < ${template} ; done
+          export GITHUB_RUN_NUMBER_PREVIOUS_COMMIT="${{ github.run_number.before }}"
+          envsubst < .github/actions/local-action/gc-cd.template.yaml > .github/actions/local-action/gc-cd.yaml
+          envsubst < .github/actions/local-action/nextjs-app-dev.template.yaml > .github/actions/local-action/nextjs-app-dev.yaml
+          envsubst < .github/actions/local-action/nextjs-app-prod.template.yaml > .github/actions/local-action/nextjs-app-prod.yaml
+          envsubst < .github/actions/local-action/skaffold.template.yaml > .github/actions/local-action/skaffold.yaml
 
       - name: 'Cloud Deploy: Delivery pipeline'
         run: |-
