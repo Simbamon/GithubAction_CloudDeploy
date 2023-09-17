@@ -58,7 +58,7 @@ jobs:
           region: 'us-east1'
           description: '${{ env.GITHUB_COMMIT_MSG }}'
           skaffold_file: '.github/actions/local-action/skaffold.yaml'
-          images: 'app=gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ env.GITHUB_SHA }}
+          images: 'app=gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ env.GITHUB_SHA }}'
 
       - name: 'Report Cloud Deploy release'
         run: |-
