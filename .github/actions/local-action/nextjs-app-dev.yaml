@@ -15,8 +15,7 @@ spec:
           - name: 'TARGET'
             value: 'Staging'
   traffic:
-  - revisionName: dev-tag-new
-    tag: new-tag-dev
+  - tag: new-tag-dev
     percent: 90
-  - revisionName: dev-tag-old
+  - revisionName: nextjs-deploy-dev-lmmqwmdh
     percent: 10

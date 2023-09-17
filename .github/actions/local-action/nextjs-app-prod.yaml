@@ -15,8 +15,7 @@ spec:
           - name: 'TARGET'
             value: 'Prod'
   traffic:
-  - revisionName: prod-tag-new
-    tag: new-tag-prod
+  - tag: new-tag-prod
     percent: 90
-  - revisionName: prod-tag-old
+  - revisionName: nextjs-deploy-prod-lmmqwmdh
     percent: 10
