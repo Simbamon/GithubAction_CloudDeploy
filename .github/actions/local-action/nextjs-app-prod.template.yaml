@@ -23,6 +23,6 @@ spec:
   - revisionName: ${CLOUD_RUN_LATEST_REVISION_PROD}
     tag: previous-tag-prod
     percent: 20
-  - revisionName: ${CLOUD_RUN_LATEST_REVISION_DEV}
+  - revisionName: ${SNAME}-${GITHUB_RUN_NUMBER}-dev
     tag: previous-tag-dev
     percent: 10
