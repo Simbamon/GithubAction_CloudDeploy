@@ -45,8 +45,19 @@ jobs:
       - name: 'Export Environmental Variables with envsubst'
         run: |-
           export PROJECT_ID="${{ env.PROJECT_ID }}"
+          export SERVICE_NAME="${{ env.REPO_NAME }}"
           export GITHUB_RUN_NUMBER="${{ github.run_number }}"
-          export GITHUB_RUN_NUMBER_PREVIOUS_COMMIT="${{ github.run_number.before }}"
+          
+          export CLOUD_RUN_LATEST_REVISION_DEV = $(gcloud run services describe nextjs-deploy-dev \
+          --format="value(status.latestReadyRevisionName)" \
+          --platform=managed \
+          --region=${{ env.REGION }}
+
+          export CLOUD_RUN_LATEST_REVISION_PROD = $(gcloud run services describe nextjs-deploy-prod \
+          --format="value(status.latestReadyRevisionName)" \
+          --platform=managed \
+          --region=${{ env.REGION }}
+
           envsubst < .github/actions/local-action/gc-cd.template.yaml > .github/actions/local-action/gc-cd.yaml
           envsubst < .github/actions/local-action/nextjs-app-dev.template.yaml > .github/actions/local-action/nextjs-app-dev.yaml
           envsubst < .github/actions/local-action/nextjs-app-prod.template.yaml > .github/actions/local-action/nextjs-app-prod.yaml
