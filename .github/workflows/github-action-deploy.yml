@@ -26,22 +26,24 @@ jobs:
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
-
+        with:
+          project_id: '${{ env.PROJECT_ID }}'
+          
       - name: 'Docker auth'
         run: |-
           gcloud auth configure-docker
 
       - name: Build and tag the docker image
         run: |-
-          docker build . --tag gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
+          docker build . --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ env.GITHUB_SHA }}
 
       - name: Push the image to the Google Container Registry (GCR)
         run: |-
-          docker push gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ env.GITHUB_SHA }}
 
       - name: 'Cloud Deploy: Delivery pipeline'
         run: |-
-          gcloud deploy apply --file .github/actions/local-action/gc-cd.yaml --region=$REGION --project=$PROJECT_ID
+          gcloud deploy apply --file .github/actions/local-action/gc-cd.yaml --region=${{ env.REGION }} --project=${{ env.PROJECT_ID }}
 
       - name: 'Create release name'
         run: |-
@@ -54,6 +56,11 @@ jobs:
           delivery_pipeline: github-action-cd-pipeline
           name: '${{ env.RELEASE_NAME }}'
           region: 'us-east1'
-          description: '{{ env.GITHUB_COMMIT_MSG }}'
+          description: '${{ env.GITHUB_COMMIT_MSG }}'
           skaffold_file: '.github/actions/local-action/skaffold.yaml'
-          images: 'app=gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_SHA'
+          images: 'app=gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}:${{ env.GITHUB_SHA }}
+
+      - name: 'Report Cloud Deploy release'
+        run: |-
+          echo "Created release ${{ steps.release.outputs.name }} "
+          echo "Release link ${{ steps.release.outputs.link }} "
