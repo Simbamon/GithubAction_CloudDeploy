@@ -47,7 +47,7 @@ jobs:
         run: |-
           export PROJECT_ID="${{ env.PROJECT_ID }}"
           export GITHUB_RUN_NUMBER="${{ github.run_number }}"
-          export SNAME= "${{env.SNAME }}"
+          export SNAME="${{ env.SNAME }}"
           export CLOUD_RUN_LATEST_REVISION_DEV=$(gcloud run services describe nextjs-deploy-dev \
           --format="value(status.latestReadyRevisionName)" \
           --platform=managed \
@@ -74,7 +74,7 @@ jobs:
         id: 'releaes'
         uses: 'google-github-actions/create-cloud-deploy-release@v0'
         with:
-          delivery_pipeline: github-action-cd-pipeline
+          delivery_pipeline: single-cloud-run-service
           name: '${{ env.RELEASE_NAME }}'
           region: 'us-east1'
           description: '${{ github.event.head_commit.message }}'
