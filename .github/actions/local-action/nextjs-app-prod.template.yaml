@@ -5,7 +5,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: ${SERVICE_NAME}-prod-${GITHUB_RUN_NUMBER}
+      name: nextjs-deploy-prod-${GITHUB_RUN_NUMBER}
       annotations:
         autoscaling.knative.dev/maxScale: '1'
     spec:
@@ -16,7 +16,7 @@ spec:
           - name: 'TARGET'
             value: 'Prod'
   traffic:
-  - revisionName: ${SERVICE_NAME}-prod-${GITHUB_RUN_NUMBER}
+  - revisionName: nextjs-deploy-prod-${GITHUB_RUN_NUMBER}
     tag: new-tag-prod
     percent: 90
   - revisionName: ${CLOUD_RUN_LATEST_REVISION_PROD}
