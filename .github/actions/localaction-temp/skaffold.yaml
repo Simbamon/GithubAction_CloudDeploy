@@ -1,0 +1,15 @@
+apiVersion: skaffold/v3alpha1
+kind: Config
+metadata:
+  name: cloud-deploy-test
+deploy:
+  cloudrun: {}
+profiles:
+- name: dev
+  manifests:
+    rawYaml:
+      - 'nextjs-app-dev.yaml'
+- name: prod
+  manifests:
+    rawYaml:
+      - 'nextjs-app-prod.yaml'
