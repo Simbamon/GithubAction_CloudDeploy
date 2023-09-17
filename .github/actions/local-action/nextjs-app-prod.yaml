@@ -5,7 +5,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: nextjs-app-prod-${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}
+      name: "nextjs-app-prod-${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}"
       annotations:
         autoscaling.knative.dev/maxScale: '1'
     spec:
