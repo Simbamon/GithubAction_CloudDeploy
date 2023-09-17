@@ -46,11 +46,11 @@ jobs:
         run: |-
           export PROJECT_ID="${{ env.PROJECT_ID }}"
           export GITHUB_RUN_NUMBER="${{ github.run_number }}"
-          export CLOUD_RUN_LATEST_REVISION_DEV = $(gcloud run services describe nextjs-deploy-dev \
+          export CLOUD_RUN_LATEST_REVISION_DEV=$(gcloud run services describe nextjs-deploy-dev \
           --format="value(status.latestReadyRevisionName)" \
           --platform=managed \
           --region=${{ env.REGION }})
-          export CLOUD_RUN_LATEST_REVISION_PROD = $(gcloud run services describe nextjs-deploy-prod \
+          export CLOUD_RUN_LATEST_REVISION_PROD=$(gcloud run services describe nextjs-deploy-prod \
           --format="value(status.latestReadyRevisionName)" \
           --platform=managed \
           --region=${{ env.REGION }})
