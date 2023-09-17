@@ -15,11 +15,11 @@ spec:
         env:
           - name: 'TARGET'
             value: 'Staging'
-  # traffic:
-  # - revisionName: nextjs-deploy-dev-${GITHUB_RUN_NUMBER}
-  #   tag: new-tag-dev
-  #   percent: 90
-  #   # This revision name (LATEST = PREVIOUS) needs to exist in the Cloud Run
-  # - revisionName: ${CLOUD_RUN_LATEST_REVISION_DEV}
-  #   tag: previous-tag-dev
-  #   percent: 10
+  traffic:
+  - revisionName: ${SNAME}-${GITHUB_RUN_NUMBER}-dev
+    tag: new-tag-dev
+    percent: 90
+    # This revision name (LATEST = PREVIOUS) needs to exist in the Cloud Run
+  - revisionName: ${CLOUD_RUN_LATEST_REVISION_DEV}
+    tag: previous-tag-dev
+    percent: 10

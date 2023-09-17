@@ -48,14 +48,22 @@ jobs:
           export PROJECT_ID="${{ env.PROJECT_ID }}"
           export GITHUB_RUN_NUMBER="${{ github.run_number }}"
           export SNAME="${{ env.SNAME }}"
-          export CLOUD_RUN_LATEST_REVISION_DEV=$(gcloud run services describe nextjs-deploy-dev \
-          --format="value(status.latestReadyRevisionName)" \
-          --platform=managed \
-          --region=${{ env.REGION }})
-          export CLOUD_RUN_LATEST_REVISION_PROD=$(gcloud run services describe nextjs-deploy-prod \
-          --format="value(status.latestReadyRevisionName)" \
-          --platform=managed \
-          --region=${{ env.REGION }})
+          export CLOUD_RUN_LATEST_REVISION_DEV=$(gcloud run revisions list \
+            --format="value(metadata.name)" \
+            --limit=1 \
+            --platform=managed \
+            --region=${{ env.REGION }} \
+            --service=${{ env.SNAME }} \
+            --filter="metadata.name:dev" \
+            --sort-by="~metadata.creationTimestamp")
+          export CLOUD_RUN_LATEST_REVISION_PROD=$(gcloud run revisions list \
+            --format="value(metadata.name)" \
+            --limit=1 \
+            --platform=managed \
+            --region=${{ env.REGION }} \
+            --service=${{ env.SNAME }} \
+            --filter="metadata.name:prod" \
+            --sort-by="~metadata.creationTimestamp")
 
           envsubst < .github/actions/local-action/gc-cd.template.yaml > .github/actions/local-action/gc-cd.yaml
           envsubst < .github/actions/local-action/nextjs-app-dev.template.yaml > .github/actions/local-action/nextjs-app-dev.yaml
