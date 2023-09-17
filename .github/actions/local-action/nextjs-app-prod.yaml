@@ -5,7 +5,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: 'nextjs-app-prod-revision-name'
+      name: 'nextjs-deploy-prod-${{ github.run_number }}'
       annotations:
         autoscaling.knative.dev/maxScale: '1'
     spec:
