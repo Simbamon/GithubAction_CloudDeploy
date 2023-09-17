@@ -32,6 +32,7 @@ jobs:
       - name: 'Docker auth'
         run: |-
           gcloud auth configure-docker
+          echo "$GITHUB_CONTEXT"
 
       - name: Build and tag the docker image
         run: |-
